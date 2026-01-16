@@ -1,6 +1,5 @@
 // example list of tasks
 tasks = [
-    
     { checked: false, text: "Buy groceries" },
     { checked: true, text: "Walk the dog" },
     { checked: false, text: "Read a book" }
@@ -8,9 +7,15 @@ tasks = [
 
 // Set up event listeners and load initial tasks
 document.addEventListener('DOMContentLoaded', (event) => {
+        
+    // Load initial tasks
+    tasks.forEach(task => {
+        createTaskItem(task.checked, task.text);
+    });
+
     // Event listener for blur event on task category input
-    for (let task of document.getElementsByClassName('.task-category')) {
-        task.addEventListener('blur', e => {
+    for (let task of document.getElementsByClassName('task-category')) {
+        task.addEventListener('focusout', e => {
             const { target } = e;
             if (target.matches('.taskItem')) {
                 if (target.value.trim() !== '') {
@@ -20,11 +25,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
     }
-        
-    // Load initial tasks
-    tasks.forEach(task => {
-        createTaskItem(task.checked, task.text);
-    });
 });
 
 // Function to handle adding a new task
@@ -75,5 +75,3 @@ function createTaskItem(checked = false, taskText = "") {
     row.querySelector('.taskItem').focus();
     return;
 }
-
-        
