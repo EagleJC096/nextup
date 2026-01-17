@@ -5,6 +5,29 @@ tasks = [
     { checked: false, text: "Read a book" }
 ];
 
+const taskState = {
+    tasks: [
+        {
+            id: crypto.randomUUID(),
+            categoryId: "inbox",
+            description: "Buy milk",
+            completed: false,
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: crypto.randomUUID(),
+            categoryId: "school",
+            description: "Finish math homework",
+            completed: false,
+            createdAt: new Date().toISOString()
+        }
+    ],
+    categories: [
+        { id: "inbox", name: "Inbox" },
+        { id: "school", name: "School" }
+    ]
+};
+
 // Set up event listeners and load initial tasks
 document.addEventListener('DOMContentLoaded', (event) => {
         
@@ -75,3 +98,4 @@ function createTaskItem(checked = false, taskText = "") {
     row.querySelector('.taskItem').focus();
     return;
 }
+
