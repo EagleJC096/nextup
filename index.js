@@ -5,7 +5,7 @@ tasks = [
     { checked: false, text: "Read a book" }
 ];
 
-const taskState = {
+let taskState = {
     tasks: [
         {
             id: crypto.randomUUID(),
@@ -37,22 +37,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Event listener for blur event on task category input
-    for (let task of document.getElementsByClassName('task-category')) {
-        task.addEventListener('focusout', e => {
-            const { target } = e;
-            if (target.matches('.taskItem')) {
-                if (target.value.trim() !== '') {
-                    addTask(target);
-                    createTaskItem();
+    // const taskItems = document.getElementsByClassName('taskItem');
+    // for (let i = 0; i < taskItems.length; i++) {
+    //     addNewTaskListener(taskItems[i]);
+    // }
+});
+
+function addNewTaskListener(task) {
+    task.addEventListener('blur', e => {
+        const valueOfTaskItem = task.value;
+        if (valueOfTaskItem.trim() !== '') {
+            const taskItems = document.getElementsByClassName('taskItem');
+            for (let i = 0; i < taskItems.length; i++) {
+                if (taskItems[i].value.trim() === '') {
+                    // If there's an empty task item, do not add a new one
+                    return;
                 }
             }
-        });
-    }
-});
+            addTask(valueOfTaskItem.trim());
+            createTaskItem();
+        }
+    });
+}
+
 
 // Function to handle adding a new task
 function addTask(taskItem) {
-    const newTaskInput = taskItem.value.trim();
+    const newTaskInput = taskItem;
     if (newTaskInput !== '') {
         // Logic to add the new task to the list
         localStorage.setItem("task", newTaskInput);
@@ -86,6 +97,7 @@ function createTaskItem(checked = false, taskText = "") {
     input.className = "form-control taskItem newTask";
     input.placeholder = "NextUP, this task!";
     input.value = taskText;
+    addNewTaskListener(input);
 
     col.appendChild(input);
 
